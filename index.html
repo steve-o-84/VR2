@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#090511">
+  <meta name="description" content="NEON POUR: Afterdark – Cyberpunk Anime Bartender WebXR game">
+  <title>NEON POUR: Afterdark</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <canvas id="renderCanvas" aria-label="NEON POUR 3D-Spiel"></canvas>
+
+  <div id="boot">
+    <div class="boot-card">
+      <div class="eyebrow">NOX-7 NIGHT DISTRICT</div>
+      <h1>NEON POUR</h1>
+      <div class="afterdark">AFTERDARK</div>
+      <p>Anime Cyberpunk Bartender VR</p>
+      <div class="version">Version 0.6.0 · WebXR</div>
+      <div id="bootStatus" class="status" aria-live="polite">Spiel wird geladen …</div>
+      <div class="boot-actions">
+        <button id="desktopBtn" type="button" disabled>Am Bildschirm spielen</button>
+        <button id="vrBtn" type="button" disabled>In VR starten</button>
+      </div>
+      <small>GitHub Pages · Meta Quest Browser · Desktop</small>
+    </div>
+  </div>
+
+  <div id="topHud" hidden>
+    <div>
+      <strong>NEON POUR: AFTERDARK</strong>
+      <span>v0.6.0</span>
+    </div>
+    <div class="credits"><span id="score">0</span> CR</div>
+  </div>
+
+  <aside id="tabletHud" hidden>
+    <div class="tablet-frame">
+      <header>
+        <div>
+          <span class="micro">REZEPT-DATENBANK</span>
+          <h2 id="recipeName">Neon Veil</h2>
+        </div>
+        <span id="recipePage">01 / 03</span>
+      </header>
+      <p id="recipeDesc"></p>
+      <ul id="recipeIngredients"></ul>
+      <footer>
+        <button id="prevRecipe" type="button">← Vorheriges</button>
+        <button id="nextRecipe" type="button">Nächstes →</button>
+      </footer>
+    </div>
+  </aside>
+
+  <div id="hint" hidden aria-live="polite">
+    Flasche auswählen → Shaker füllen → Eis → Schütteln → ins Glas gießen → auf SERVE stellen
+  </div>
+
+  <div id="dialogue" hidden>
+    <div class="speaker-row">
+      <span id="guestName">VALENCIA</span>
+      <span class="signal"></span>
+    </div>
+    <p id="guestLine">„Mach mir einen Neon Veil.“</p>
+  </div>
+
+  <div id="livePanel" hidden>
+    <div><span>SHAKER</span><strong id="shakerStatus">leer</strong></div>
+    <div><span>GLAS</span><strong id="glassStatus">leer</strong></div>
+    <div><span>EIS</span><strong id="iceStatus">0</strong></div>
+    <div><span>METHODE</span><strong id="methodStatus">nicht geschüttelt</strong></div>
+  </div>
+
+  <div id="resultModal" class="modal" hidden>
+    <div class="modal-card">
+      <span class="micro">BEWERTUNG</span>
+      <h2 id="resultTitle">Drink serviert</h2>
+      <p id="resultText"></p>
+      <div id="resultBreakdown"></div>
+      <button id="nextGuestBtn" type="button">Nächster Gast</button>
+    </div>
+  </div>
+
+  <script>
+    // Critical overlay reset before any external library is loaded.
+    (() => {
+      const result = document.getElementById("resultModal");
+      if (result) result.hidden = true;
+    })();
+
+    function showBootError(message) {
+      const status = document.getElementById("bootStatus");
+      if (status) status.textContent = message;
+    }
+
+    function loadGame() {
+      const script = document.createElement("script");
+      script.src = "game.js";
+      script.onload = () => {};
+      script.onerror = () => showBootError("game.js fehlt oder konnte nicht geladen werden.");
+      document.body.appendChild(script);
+    }
+
+    function loadBabylonFallback() {
+      const fallback = document.createElement("script");
+      fallback.src = "https://cdn.jsdelivr.net/npm/babylonjs@8.26.0/babylon.js";
+      fallback.onload = loadGame;
+      fallback.onerror = () => showBootError("Die 3D-Engine konnte nicht geladen werden. Prüfe Internetverbindung und Content-Blocker.");
+      document.body.appendChild(fallback);
+    }
+  </script>
+  <script src="https://cdn.babylonjs.com/babylon.js" onload="loadGame()" onerror="loadBabylonFallback()"></script>
+</body>
+</html>
