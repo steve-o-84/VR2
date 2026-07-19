@@ -2,39 +2,91 @@
 <html lang="de">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#080a12" />
-  <title>Neon Night Bartender VR</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#090807" />
+  <title>Velvet Hour — Bartender VR</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
-  <script type="importmap">
-  {
-    "imports": {
-      "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
-      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"
-    }
-  }
-  </script>
+  <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"}}</script>
 </head>
 <body>
-  <div id="loading">
-    <div class="card">
-      <p class="eyebrow">WEBXR · META QUEST</p>
-      <h1>Neon Night<br>Bartender</h1>
-      <p>Mixe Drinks, unterhalte dich mit deinen Gästen und baue dir einen Ruf als bester Barkeeper der Stadt auf.</p>
-      <div class="controls">
-        <span><b>VR:</b> Trigger = greifen / auswählen</span>
-        <span><b>Desktop:</b> Maus = zielen, Klick = auswählen</span>
+  <div id="intro">
+    <div class="intro-noise"></div>
+    <div class="intro-card">
+      <div class="brand-row"><div class="brand-mark">VH</div><div class="version-badge">VERSION <b>0.3.0</b></div></div>
+      <p class="kicker">A WEBXR COCKTAIL EXPERIENCE</p>
+      <h1>Velvet<br><em>Hour</em></h1>
+      <p class="lede">Eine stilvolle Nachtschicht hinter der Bar. Mixe präzise, höre deinen Gästen zu und werde zur Legende des Hauses.</p>
+      <div class="mode-row">
+        <button id="desktopStart" class="primary">Am Bildschirm spielen</button>
+        <button id="vrStart" class="secondary">Auf Meta Quest spielen</button>
       </div>
-      <button id="start">Bar öffnen</button>
-      <p class="small">Für VR über HTTPS öffnen, z. B. mit GitHub Pages.</p>
+      <p class="hint">Desktop: Maus & UI · Quest: beide Controller, Trigger und räumliche Bedienfelder</p>
     </div>
   </div>
-  <div id="hud">
-    <div><span>GAST</span><strong id="guestName">–</strong></div>
-    <div><span>BESTELLUNG</span><strong id="orderName">–</strong></div>
-    <div><span>PUNKTE</span><strong id="score">0</strong></div>
-  </div>
+
+  <header id="topbar" class="game-ui hidden">
+    <div class="wordmark">VELVET <i>HOUR</i> <small>v0.3.0</small></div>
+    <div class="shift"><span>AKTUELLER GAST</span><b id="guestName">—</b></div>
+    <div class="shift"><span>BESTELLUNG</span><b id="orderName">—</b></div>
+    <div class="score"><span>REPUTATION</span><b id="score">0000</b></div>
+  </header>
+
+  <aside id="guestCard" class="game-ui hidden panel">
+    <div class="guest-avatar" id="guestAvatar"><span id="guestInitial">M</span></div>
+    <div class="guest-copy">
+      <span class="eyebrow">IM GESPRÄCH</span>
+      <h2 id="guestCardName">Maya</h2>
+      <p id="guestLine">„Ein Velvet Sunset, bitte. Überrasche mich.“</p>
+    </div>
+    <div id="dialogueChoices" class="choice-list"></div>
+  </aside>
+
+  <aside id="tablet" class="game-ui hidden panel">
+    <div class="tablet-head">
+      <div><span class="eyebrow">BAR BOOK</span><h3>Rezepte</h3></div>
+      <span class="live-dot">LIVE</span>
+    </div>
+    <div id="recipeTabs" class="recipe-tabs"></div>
+    <div id="recipeDetail" class="recipe-detail"></div>
+  </aside>
+
+  <section id="station" class="game-ui hidden panel">
+    <div class="station-head">
+      <div><span class="eyebrow">MISE EN PLACE</span><h3>Arbeitsstation</h3></div>
+      <button id="resetDrink" class="icon-btn" title="Drink leeren">↺</button>
+    </div>
+    <div class="station-grid">
+      <div class="tool-group">
+        <label>1 · Glas</label>
+        <div id="glassButtons" class="button-grid three"></div>
+      </div>
+      <div class="tool-group ingredients-group">
+        <label>2 · Zutaten</label>
+        <div id="ingredientButtons" class="button-grid ingredients"></div>
+      </div>
+      <div class="tool-group">
+        <label>3 · Finish</label>
+        <div class="button-grid three">
+          <button id="iceBtn" class="tool-btn"><span>◇</span>Eis</button>
+          <button id="shakeBtn" class="tool-btn"><span>≋</span>Shaken</button>
+          <button id="serveBtn" class="tool-btn serve"><span>→</span>Servieren</button>
+        </div>
+      </div>
+    </div>
+    <div class="drink-status">
+      <div class="mini-glass"><div id="liquidPreview"></div><div id="icePreview"></div></div>
+      <div><span id="glassStatus">Noch kein Glas gewählt</span><b id="contentsStatus">Dein Drink ist leer.</b></div>
+      <div id="qualityPill">BEREIT</div>
+    </div>
+  </section>
+
+  <div id="desktopHelp" class="game-ui hidden">Ziehen: umsehen&nbsp;&nbsp;·&nbsp;&nbsp;Mausrad: Zoom&nbsp;&nbsp;·&nbsp;&nbsp;H: UI ausblenden</div>
   <div id="toast"></div>
+  <div id="resultModal" class="modal hidden"><div class="result-card"><span class="eyebrow">DRINK SERVIERT</span><h2 id="resultTitle">Sehr gut.</h2><div id="resultScore">+85</div><div id="resultBreakdown"></div><button id="nextGuestBtn" class="primary">Nächster Gast</button></div></div>
+
   <script type="module" src="game.js"></script>
 </body>
 </html>

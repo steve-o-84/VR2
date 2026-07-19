@@ -1,36 +1,39 @@
-# Neon Night Bartender VR
+# Velvet Hour — Bartender VR
 
-Ein browserbasiertes WebXR-Barkeeper-Spiel für Meta Quest. Der Prototyp enthält eine atmosphärische 3D-Bar, drei Gäste, Dialogentscheidungen, ein Rezept-Tablet, verschiedene Gläser und Zutaten, Eis, Shaken, Servieren und ein Punktesystem.
+**Aktuelle Version: 0.3.0**
 
-## Spielen
+Spielbarer WebXR-Vertical-Slice für Meta Quest und Desktop-Browser. Die Versionsnummer steht direkt auf der Startseite und zusätzlich in der oberen Desktop-Leiste sowie auf den VR-Panels.
 
-1. Repository auf GitHub hochladen.
-2. **Settings → Pages → Deploy from a branch** aktivieren.
-3. `main` und `/(root)` auswählen.
-4. Die HTTPS-Adresse im Meta Quest Browser öffnen.
-5. **Bar öffnen** und danach **Enter VR** wählen.
+## Desktop
 
-WebXR benötigt für immersive Sitzungen HTTPS. GitHub Pages stellt HTTPS bereit.
+`index.html` über einen lokalen Webserver oder GitHub Pages öffnen. Danach **Am Bildschirm spielen** wählen. Die komplette Bedienung erfolgt über die sichtbaren Schaltflächen; die 3D-Kamera lässt sich mit gedrückter Maustaste drehen und mit dem Mausrad zoomen.
 
-## Steuerung
+## Meta Quest
 
-- **Quest:** Mit dem Controller zielen und Trigger drücken.
-- **Desktop:** Mit der Maus zielen und klicken.
+Die Seite über HTTPS im Quest Browser öffnen und **Auf Meta Quest spielen** wählen. Danach unten rechts **ENTER VR** drücken.
 
-## Spielablauf
+- Beide Controller besitzen einen Laserpointer.
+- Mit dem Trigger werden räumliche Buttons ausgewählt.
+- Hover-Markierung zeigt das aktuell anvisierte Element.
+- Eine kurze Controller-Vibration bestätigt jede Auswahl.
+- Rezeptbuch, Gastdialog, Gläser, Zutaten, Eis, Shaken, Leeren und Servieren sind vollständig in VR bedienbar.
+- Die räumlichen Panels sind als Halbkreis hinter der Bar angeordnet.
 
-- Bestellung des Gasts lesen.
-- Rezept auf dem Tablet prüfen.
-- Glas auswählen, Zutaten und Eis hinzufügen, optional shaken.
-- Währenddessen über die beiden Dialogoptionen mit dem Gast sprechen.
-- Drink servieren und Punkte für Rezepttreue, Glas, Eis, Zubereitung und Gespräch sammeln.
+## GitHub Pages
 
-## Technik
+1. Alle Dateien in ein Repository hochladen.
+2. Settings → Pages öffnen.
+3. Deploy from a branch, `main`, `/(root)` auswählen.
+4. Die veröffentlichte HTTPS-Adresse im Quest Browser öffnen.
 
-- Three.js über CDN
-- WebXR Device API
-- Keine Installation, kein Build-System, kein Backend
+## Inhalt
 
-## Ausbauideen
+- Drei Gäste und drei Cocktailrezepte
+- Dialogentscheidungen mit Reputationspunkten
+- Gläser, Zutaten, Eis, Shaken und Servieren
+- Detaillierte Drink-Auswertung
+- Vollständige Desktop-Oberfläche
+- Vollständige räumliche Quest-Oberfläche
+- Controller-Haptik und Hover-Feedback
 
-3D-Modelle mit GLTF, Hand-Tracking, physisches Greifen und Ausgießen, Spracherkennung, Audio, mehr Rezepte, Schichten/Kampagne, Trinkgeld und persistente Highscores.
+Three.js wird über jsDelivr geladen; beim ersten Start ist daher eine Internetverbindung erforderlich.
